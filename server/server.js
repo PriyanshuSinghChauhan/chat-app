@@ -36,17 +36,9 @@ io.on("connection", (socket) => {
   });
 });
 
-const allowedOrigins = [
-  "https://chat-app-omega-ochre-34.vercel.app",
-];
-
 // Middleware setup
 app.use(express.json({ limit: "4mb" }));
-app.use(cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-}));
+app.use(cors());
 
 // Routes setup
 app.use("/api/status", (req, res) => res.send("server is live"));
