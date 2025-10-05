@@ -36,9 +36,17 @@ io.on("connection", (socket) => {
   });
 });
 
+const allowedOrigins = [
+  "https://chat-app-omega-ochre-34.vercel.app",
+];
+
 // Middleware setup
 app.use(express.json({ limit: "4mb" }));
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 
 // Routes setup
 app.use("/api/status", (req, res) => res.send("server is live"));
@@ -48,7 +56,7 @@ app.use("/api/messages", messageRouter);
 // Connect to MongoDB
 await connectDB();
 
-if(process.env.NODE_ENV !== "production"){
+if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
   server.listen(PORT, () => console.log("Server is running on PORT: " + PORT));
 }
